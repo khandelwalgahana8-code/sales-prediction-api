@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sales Intelligence Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#0f172a;
+    --sub:#64748b;
+    --primary:#4f46e5;
+    --secondary:#7c3aed;
+    --border:#e2e8f0;
+}
+
+.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --sub:#cbd5e1;
+    --primary:#6366f1;
+    --secondary:#8b5cf6;
+    --border:#334155;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.3s;
+}
+
+.container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+    padding:30px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-size:38px;
+    background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.theme-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary));
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.08);
+}
+
+.input-area{
+    display:flex;
+    gap:15px;
+}
+
+input{
+    flex:1;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text);
+}
+
+.predict-btn{
+    border:none;
+    padding:15px 25px;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+    background:linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary));
+}
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+}
+
+.kpi{
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    background:linear-gradient(
+    135deg,
+    rgba(79,70,229,.08),
+    rgba(124,58,237,.08));
+}
+
+.kpi h3{
+    color:var(--sub);
+}
+
+.kpi h2{
+    margin-top:10px;
+    color:var(--primary);
+}
+
+.section-title{
+    margin-bottom:15px;
+}
+
+.result{
+    display:none;
+}
+
+.insight{
+    line-height:1.8;
+}
+
+ul{
+    padding-left:20px;
+    line-height:2;
+}
+
+canvas{
+    margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <div>
+        <h1>Sales Intelligence Dashboard</h1>
+        <p>AI Powered Revenue Forecasting</p>
+    </div>
+
+    <button class="theme-btn"
+    onclick="toggleTheme()">
+    🌙 Dark Mode
+    </button>
+</div>
+
+<div class="card">
+
+    <h2 class="section-title">
+        Enter Advertising Spend
+    </h2>
+
+    <div class="input-area">
+
+        <input
+        type="number"
+        id="adSpend"
+        placeholder="Enter Ad Spend">
+
+        <button
+        class="predict-btn"
+        onclick="predictSales()">
+        Predict
+        </button>
+
+    </div>
+
+</div>
+
+<div id="result" class="result">
+
+<div class="kpi-grid">
+
+<div class="kpi">
+<h3>Predicted Sales</h3>
+<h2 id="sales">₹0</h2>
+</div>
+
+<div class="kpi">
+<h3>ROI Score</h3>
+<h2 id="roi">0/100</h2>
+</div>
+
+<div class="kpi">
+<h3>Growth</h3>
+<h2 id="growth">-</h2>
+</div>
+
+<div class="kpi">
+<h3>Risk</h3>
+<h2 id="risk">-</h2>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Business Insight
+</h2>
+
+<div
+class="insight"
+id="insight">
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Recommended Actions
+</h2>
+
+<ul id="actions"></ul>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Revenue Projection
+</h2>
+
+<div id="projection"></div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Growth Forecast
+</h2>
+
+<canvas id="chart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleTheme(){
+
+document.body.classList.toggle("dark");
+
+let btn=
+document.querySelector(".theme-btn");
+
+btn.innerHTML=
+document.body.classList.contains("dark")
+? "☀️ Light Mode"
+: "🌙 Dark Mode";
+}
+
+let chart;
+
+async function predictSales(){
+
+const spend=
+document.getElementById("adSpend").value;
+
+if(!spend){
+alert("Enter Ad Spend");
+return;
+}
+
+try{
+
+const response=
+await fetch(
+"http://127.0.0.1:8000/predict",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+AdSpend:Number(spend)
+})
+});
+
+const data=
+await response.json();
+
+const sales=
+data.predicted_sales ||
+data.prediction ||
+0;
+
+document.getElementById(
+"result"
+).style.display="block";
+
+document.getElementById(
+"sales"
+).innerHTML=
+"₹"+sales.toLocaleString();
+
+let roi=
+Math.min(
+Math.round((sales/spend)*10),
+100
+);
+
+document.getElementById(
+"roi"
+).innerHTML=
+roi+"/100";
+
+let growth;
+let risk;
+let insight;
+let actions;
+
+if(sales>20000){
+
+growth="HIGH";
+risk="LOW";
+
+insight=
+"Advertising efficiency is excellent. Revenue growth potential is strong and scalable.";
+
+actions=[
+"Increase budget by 15%",
+"Scale top campaigns",
+"Expand targeting",
+"Launch promotions",
+"Focus on retention"
+];
+
+}
+else if(sales>10000){
+
+growth="MEDIUM";
+risk="MEDIUM";
+
+insight=
+"Stable performance with room for optimization.";
+
+actions=[
+"Improve creatives",
+"Optimize funnel",
+"Test audiences",
+"Track conversions"
+];
+
+}
+else{
+
+growth="LOW";
+risk="HIGH";
+
+insight=
+"Current spend is underperforming and requires optimization.";
+
+actions=[
+"Review strategy",
+"Reduce wasteful spend",
+"Improve audience targeting",
+"Test new channels"
+];
+
+}
+
+document.getElementById(
+"growth"
+).innerHTML=growth;
+
+document.getElementById(
+"risk"
+).innerHTML=risk;
+
+document.getElementById(
+"insight"
+).innerHTML=insight;
+
+document.getElementById(
+"actions"
+).innerHTML=
+actions.map(
+a=>`<li>${a}</li>`
+).join("");
+
+document.getElementById(
+"projection"
+).innerHTML=
+`
+Current Sales:
+<b>₹${sales.toLocaleString()}</b>
+
+<br><br>
+
+Projected Sales (+20% Budget):
+
+<b>
+₹${Math.round(
+sales*1.2
+).toLocaleString()}
+</b>
+`;
+
+createChart(
+Number(spend),
+Number(sales)
+);
+
+}
+catch(error){
+
+alert(
+"FastAPI server not running."
+);
+
+console.log(error);
+
+}
+
+}
+
+function createChart(
+spend,
+sales
+){
+
+const ctx=
+document.getElementById(
+"chart"
+);
+
+if(chart){
+chart.destroy();
+}
+
+chart=
+new Chart(ctx,{
+
+type:"line",
+
+data:{
+
+labels:[
+spend*0.5,
+spend*0.75,
+spend,
+spend*1.25,
+spend*1.5
+],
+
+datasets:[{
+
+label:
+"Projected Sales",
+
+data:[
+sales*0.6,
+sales*0.8,
+sales,
+sales*1.2,
+sales*1.4
+],
+
+borderWidth:3
+
+}]
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

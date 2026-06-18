@@ -45,34 +45,6 @@ The API predicts expected sales based on advertising expenditure and returns the
 
 ---
 
-## Project Structure
-
-```bash
-sales-prediction-api/
-│
-├── app.py
-├── train_model.py
-├── sales_prediction_model.pkl
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
-
-### File Description
-
-| File                       | Purpose                  |
-| -------------------------- | ------------------------ |
-| app.py                     | FastAPI application      |
-| train_model.py             | Model training script    |
-| sales_prediction_model.pkl | Saved trained model      |
-| requirements.txt           | Project dependencies     |
-| README.md                  | Project documentation    |
-| .gitignore                 | Ignore unnecessary files |
-
----
-
-## Machine Learning Workflow
-
 ### Data Collection
 
 The dataset contains historical information relating advertising expenditure to generated sales.

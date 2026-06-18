@@ -1,5 +1,7 @@
 # 📈 Sales Prediction API using Machine Learning & FastAPI
 
+Machine Learning Sales Prediction API built with FastAPI and Scikit-Learn for forecasting revenue from advertising spend.
+
 ## Overview
 
 Sales forecasting is one of the most important tasks for businesses. Accurate predictions help companies optimize marketing budgets, manage inventory efficiently, and make data-driven decisions.

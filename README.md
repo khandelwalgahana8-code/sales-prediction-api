@@ -142,13 +142,6 @@ pip install -r requirements.txt
 4️⃣ Run FastAPI Server
 uvicorn app:app --reload
 
-Server runs at:
-
-http://127.0.0.1:8000
-
-Swagger Documentation:
-
-http://127.0.0.1:8000/docs
 5️⃣ Launch Frontend
 
 Open:

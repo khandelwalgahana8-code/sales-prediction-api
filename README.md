@@ -1,276 +1,262 @@
-# 📈 Sales Prediction API using Machine Learning & FastAPI
+🚀 Sales Intelligence Dashboard
 
-Machine Learning Sales Prediction API built with FastAPI and Scikit-Learn for forecasting revenue from advertising spend.
+An AI-powered Sales Prediction and Business Intelligence Dashboard built using FastAPI, Machine Learning, HTML/CSS/JavaScript, and Chart.js.
 
-## Overview
+This application predicts future sales based on advertising spend and provides actionable business insights, ROI analysis, growth forecasts, risk assessment, and strategic recommendations through an interactive dashboard.
 
-Sales forecasting is one of the most important tasks for businesses. Accurate predictions help companies optimize marketing budgets, manage inventory efficiently, and make data-driven decisions.
+📌 Overview
 
-This project demonstrates a complete Machine Learning workflow, from model training to deployment as a REST API using FastAPI.
+Businesses often struggle to understand how advertising investments impact revenue. This project leverages Machine Learning to estimate sales performance based on advertising spend and transforms raw predictions into meaningful business intelligence.
 
-The API predicts expected sales based on advertising expenditure and returns the forecast instantly through a simple endpoint.
+The system combines:
 
----
+Machine Learning Prediction Engine
+FastAPI REST API
+Interactive Analytics Dashboard
+Revenue Forecasting
+Business Recommendations
+Real-Time Data Visualization
+✨ Features
+🔮 Sales Prediction
 
-## Features
+Predict expected sales based on advertising spend using a trained Machine Learning model.
 
-* Machine Learning-based sales prediction
-* REST API built with FastAPI
-* Trained and serialized model using Joblib
-* Interactive API documentation with Swagger UI
-* JSON-based request and response handling
-* Lightweight and beginner-friendly implementation
-* Easy to deploy and extend
+📊 Interactive Dashboard
 
----
+Modern analytics dashboard displaying:
 
-## Tech Stack
+Predicted Sales
+ROI Score
+Growth Potential
+Risk Assessment
+💡 Business Insights
 
-### Backend
-
-* Python
-* FastAPI
-* Uvicorn
-
-### Machine Learning
-
-* Scikit-Learn
-* Pandas
-* NumPy
-* Joblib
-
-### Development Tools
-
-* VS Code
-* Git
-* GitHub
-
----
-
-### Data Collection
-
-The dataset contains historical information relating advertising expenditure to generated sales.
+Automatically generates insights based on predicted performance.
 
 Example:
 
-| Ad Spend | Sales |
-| -------- | ----- |
-| 1000     | 5000  |
-| 2000     | 9000  |
-| 3000     | 13000 |
+Advertising efficiency is excellent. Revenue growth potential is strong and scalable.
 
----
+📈 Revenue Projection
 
-### Data Preprocessing
-
-The dataset is cleaned and prepared before training:
-
-* Missing value handling
-* Feature selection
-* Data transformation
-* Model-ready formatting
-
----
-
-### Model Training
-
-A regression model is trained to learn the relationship between advertising spend and sales revenue.
+Projects future sales if advertising budgets increase.
 
 Example:
 
-```python
-from sklearn.linear_model import LinearRegression
+Current Sales: ₹25,000
 
-model = LinearRegression()
-model.fit(X_train, y_train)
-```
+Projected Sales (+20% Budget):
+₹30,000
+🎯 Strategic Recommendations
 
----
+Generates actionable recommendations such as:
 
-### Model Serialization
+Increase marketing budget
+Scale successful campaigns
+Improve audience targeting
+Optimize conversion funnels
+Focus on customer retention
+📉 Growth Forecast Visualization
 
-After training, the model is saved using Joblib.
+Interactive sales trend visualization using Chart.js.
 
-```python
-import joblib
+Shows how sales may change as advertising investment increases.
 
-joblib.dump(model, "sales_prediction_model.pkl")
-```
+🌙 Dark / Light Mode
 
-This allows predictions without retraining every time.
+Professional dashboard experience with:
 
----
+Light Theme
+Dark Theme
+Responsive Design
+🏗️ Project Architecture
+User Input
+    │
+    ▼
+Frontend Dashboard
+(HTML + CSS + JS)
+    │
+    ▼
+FastAPI Backend
+    │
+    ▼
+Machine Learning Model
+(Joblib)
+    │
+    ▼
+Sales Prediction
+    │
+    ▼
+Business Intelligence Engine
+    │
+    ▼
+Dashboard Results
+🛠️ Technology Stack
+Backend
+Python
+FastAPI
+Uvicorn
+Joblib
+Scikit-Learn
+Pandas
+Frontend
+HTML5
+CSS3
+JavaScript
+Chart.js
+Machine Learning
+Linear Regression
+Model Serialization with Joblib
+📂 Project Structure
+sales-prediction-api/
 
-## API Endpoints
+│
+├── app.py
+├── sales_prediction_model.pkl
+├── requirements.txt
+├── README.md
+│
+├── frontend/
+│   └── index.html
+│
+└── screenshots/
+⚙️ Installation
+1️⃣ Clone Repository
+git clone https://github.com/khandelwalgahana8-code/sales-prediction-api.git
 
-### Home Endpoint
-
-```http
-GET /
-```
-
-Response:
-
-```json
-{
-  "message": "Sales Prediction API is running"
-}
-```
-
----
-
-### Prediction Endpoint
-
-```http
-POST /predict
-```
-
-Request Body:
-
-```json
-{
-  "AdSpend": 5000
-}
-```
-
-Response:
-
-```json
-{
-  "PredictedSales": 24785.65
-}
-```
-
----
-
-## Installation
-
-### Clone Repository
-
-```bash
-git clone https://github.com/yourusername/sales-prediction-api.git
-```
-
-### Move Into Project Directory
-
-```bash
 cd sales-prediction-api
-```
-
-### Create Virtual Environment
-
-```bash
+2️⃣ Create Virtual Environment
 python -m venv venv
-```
 
-### Activate Environment
+Activate:
 
-Windows:
+Windows
 
-```bash
 venv\Scripts\activate
-```
 
-Linux / Mac:
+Linux / Mac
 
-```bash
 source venv/bin/activate
-```
-
-### Install Dependencies
-
-```bash
+3️⃣ Install Dependencies
 pip install -r requirements.txt
-```
-
----
-
-## Running the Application
-
-Start the FastAPI server:
-
-```bash
+4️⃣ Run FastAPI Server
 uvicorn app:app --reload
-```
 
-Server:
+Server runs at:
 
-```text
 http://127.0.0.1:8000
-```
 
 Swagger Documentation:
 
-```text
 http://127.0.0.1:8000/docs
-```
+5️⃣ Launch Frontend
 
-ReDoc Documentation:
+Open:
 
-```text
-http://127.0.0.1:8000/redoc
-```
+frontend/index.html
 
----
+or
 
-## Testing with Swagger UI
+http://127.0.0.1:5500/index.html
 
-1. Open `/docs`
-2. Click POST `/predict`
-3. Click "Try it out"
-4. Enter:
+using VS Code Live Server.
 
-```json
+📡 API Endpoint
+Predict Sales
+
+POST
+
+/predict
+Request
 {
   "AdSpend": 5000
 }
-```
+Response
+{
+  "predicted_sales": 25420.57
+}
+📊 Sample Dashboard Output
+Predicted Sales
+₹25,420
 
-5. Click Execute
+ROI Score
+82/100
 
-The API will return the predicted sales value.
+Growth Potential
+HIGH
 
----
+Risk Level
+LOW
+Business Insight
+Advertising efficiency is excellent.
+Revenue growth potential is strong and scalable.
+Recommendations
+✓ Increase budget by 15%
 
-## Example Use Cases
+✓ Scale top campaigns
 
-* Retail sales forecasting
-* Marketing budget planning
-* Revenue estimation
-* Business analytics dashboards
-* Learning FastAPI deployment
-* Learning ML model serving
+✓ Expand targeting
 
----
+✓ Improve retention
 
-## Future Improvements
+✓ Launch promotions
+🎯 Business Applications
 
-* Multiple input features
-* Real-world datasets
-* Model performance metrics
-* Database integration
-* Docker containerization
-* Cloud deployment
-* Authentication and authorization
-* Frontend dashboard integration
+This solution can be adapted for:
 
----
+Marketing Analytics
+Sales Forecasting
+Budget Optimization
+Campaign Performance Tracking
+Revenue Planning
+Decision Support Systems
+Startup Growth Analysis
+🔮 Future Enhancements
+Multi-Factor Prediction
 
-## Learning Outcomes
+Current:
 
-Through this project, I learned:
+Ad Spend
 
-* Machine Learning model training
-* Regression algorithms
-* Model serialization using Joblib
-* FastAPI fundamentals
-* REST API development
-* JSON request/response handling
-* API documentation using Swagger
-* Git and GitHub project management
+Future:
 
----
+TV Spend
+Radio Spend
+Social Media Spend
+Region
+Seasonality
+Competitor Activity
+Advanced Analytics
+Forecast Next Month Sales
+Trend Detection
+Customer Segmentation
+AI Insights
+PDF Reports
+Cloud Deployment
+User Authentication
+📈 Performance Benefits
+Feature	Benefit
+ML Prediction	Revenue Forecasting
+ROI Analysis	Budget Optimization
+Growth Forecast	Strategic Planning
+Risk Assessment	Better Decision Making
+Dashboard Analytics	Executive Insights
+🚀 Future Vision
 
-## Author
+Transform this project into a complete AI-powered Business Intelligence Platform capable of:
 
-**Gahana**
+Predictive Analytics
+Revenue Forecasting
+Marketing Intelligence
+Strategic Planning
+Executive Reporting
+
+for startups, enterprises, and marketing teams.
+
+👨‍💻 Author
+
+Gahana Khandelwal
+
+GitHub:
+
+sales-prediction-api Repository

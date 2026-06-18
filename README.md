@@ -1,4 +1,4 @@
-#🚀 Sales Intelligence Dashboard
+# 🚀 Sales Intelligence Dashboard
 
 An AI-powered Sales Prediction and Business Intelligence Dashboard built using FastAPI, Machine Learning, HTML/CSS/JavaScript, and Chart.js.
 
